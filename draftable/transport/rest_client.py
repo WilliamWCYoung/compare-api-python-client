@@ -86,6 +86,11 @@ class RESTClient(object):
 
     def post(self, url, data):
         # type: (str, dict) -> Union[dict, list]
+
+        # Other libraies like open telemetry do not work well with this special
+        # Url class wrapper, convert to simple string.
+        url = str(url)
+
         if not _data_contains_file(data):
             response = requests.post(
                 url, auth=self.__auth, json=data, verify=self.verify_ssl
