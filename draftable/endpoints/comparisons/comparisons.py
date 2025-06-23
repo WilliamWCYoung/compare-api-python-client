@@ -37,20 +37,35 @@ class ComparisonsEndpoint(object):
         return self.__client.auth_token
 
     @handle_request_exception
-    def all(self, limit=None, offset=None):
-        # type: (Optional[int], Optional[int]) -> List[Comparison]
+    def all(self):
+        # type: () -> List[Comparison]
+
+        return list(
+            map(
+                comparison_from_response,
+                self.__client.get(self.__url)["results"],
+            )
+        )
+
+    @handle_request_exception
+    def all_paginated(self, limit=None, offset=None):
+        # type: (Optional[int], Optional[int]) -> dict
         parameters = {}
         if limit is not None:
             parameters["limit"] = limit
         if offset is not None:
             parameters["offset"] = offset
-
-        return list(
+        
+        response = self.__client.get(self.__url, parameters=parameters)
+        
+        response["results"] = list(
             map(
                 comparison_from_response,
                 self.__client.get(self.__url, parameters=parameters)["results"],
             )
         )
+
+        return response
 
     @handle_request_exception
     def get(self, identifier):
