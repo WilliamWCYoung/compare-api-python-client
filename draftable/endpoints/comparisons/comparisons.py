@@ -37,12 +37,18 @@ class ComparisonsEndpoint(object):
         return self.__client.auth_token
 
     @handle_request_exception
-    def all(self):
-        # type: () -> List[Comparison]
+    def all(self, limit=None, offset=None):
+        # type: (Optional[int], Optional[int]) -> List[Comparison]
+        params = {}
+        if limit is not None:
+            params["limit"] = limit
+        if offset is not None:
+            params["offset"] = offset
+
         return list(
             map(
                 comparison_from_response,
-                self.__client.get(self.__url)["results"],
+                self.__client.get(self.__url, params=params)["results"],
             )
         )
 
