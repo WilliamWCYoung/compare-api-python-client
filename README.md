@@ -24,6 +24,7 @@ See the [full API documentation](https://api.draftable.com) for an introduction 
   - [Creating comparisons](#creating-comparisons)
   - [Displaying comparisons](#displaying-comparisons)
   - [Exporting comparisons](#exporting-comparisons)
+  - [Change details of Comparisons](#change-details-of-comparisons)
   - [Utility functions](#utility-functions)
 - [Other information](#other-information)
   - [Self-signed certificates](#self-signed-certificates)
@@ -33,7 +34,7 @@ Requirements
 ------------
 
 - Operating system: Any maintained Linux, macOS, or Windows release
-- Python runtime: Any [maintained version](https://devguide.python.org/#status-of-python-branches) (currently 3.7, 3.8, 3.9, or 3.10)
+- Python runtime: Any [maintained version](https://devguide.python.org/versions/#versions) (currently 3.8, 3.9, 3.10, 3.11, 3.12, and 3.13)
 
 Getting started
 ---------------
@@ -407,6 +408,20 @@ while not export.ready:
     export = client.exports.get(export.identifier)
     if export.ready:
         print(export.url)
+```
+
+### Change details of Comparisons
+
+A dictionary that describes the changes between the two documents is available, once the comparison is ready. This method returns a `draftable.endpoints.comparisons.changes.ChangeDetails` object.
+
+#### Example usage
+
+```python
+identifier = '<identifier>'
+
+# Retrieve a ChangeDetails object that captures all changes between the two documents.
+change_details = comparisons.change_details(identifier)
+print("Changes summary: {}".format(change_details.summary))
 ```
 
 ### Utility functions
