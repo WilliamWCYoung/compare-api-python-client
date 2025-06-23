@@ -39,16 +39,16 @@ class ComparisonsEndpoint(object):
     @handle_request_exception
     def all(self, limit=None, offset=None):
         # type: (Optional[int], Optional[int]) -> List[Comparison]
-        params = {}
+        parameters = {}
         if limit is not None:
-            params["limit"] = limit
+            parameters["limit"] = limit
         if offset is not None:
-            params["offset"] = offset
+            parameters["offset"] = offset
 
         return list(
             map(
                 comparison_from_response,
-                self.__client.get(self.__url, params=params)["results"],
+                self.__client.get(self.__url, parameters=parameters)["results"],
             )
         )
 
